@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>3D_Online_Measurement_Portal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            color: #000;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+            background-color: #fff;
+            margin: 0px;
+            overflow: hidden;
+            height: auto;
+            display: flex; /* Use flexbox to arrange video and 3D viewer side by side */
+        }
+
+        #video-container {
+            width: 40%; /* Adjust the width of the video container */
+        }
+
+        video {
+            width: 100%; /* Make the video take up the full width of its container */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        #viewer-container {
+            flex-grow: 1; /* Allow the 3D viewer to take up the remaining space */
+        }
+
+        #menu {
+            position: relative;
+            color:#000;
+            width: 100%;
+            padding: 5px;
+
+        }
+
+        #info {
+            position: absolute;
+            width: 500px;
+            right: 0px;
+            top: 40px;
+            color:#000;
+            padding: 5px;
+            opacity: 0.9;
+        }
+
+        #container {
+            width: 100%;
+            height: 800px;
+        }
+
+        .measurement_info {
+            border: 1px solid #aaa;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .measurement_description {
+            overflow: auto;
+            width: 450px;
+            padding: 2px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="header"></div>
+    <div id="content-container">
+        <div id="viewer-container">
+            <!-- 3D viewer container goes here -->
+            <div id="menu">
+                <button id="distancebutton">Measure Distance</button>
+                <button id="clearbutton">Clear</button>
+            </div>
+            <div id="info"></div>
+            <div id="container"></div>
+        </div>
+        <div id="video-container" class="popup-container">
+            <h2>Video Preview</h2>
+            <!-- Video thumbnail goes here -->
+            <div class="video-thumbnail">
+                <img src="./models/thumbnail.png" alt="Video Thumbnail">
+                <div class="play-button" id="play-button">&#9654;</div>
+            </div>
+            <!-- Video pop-up goes here -->
+            <div class="video-popup" id="video-popup">
+                <video controls>
+                    <source src="./models/IMG_6018.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="close-button" id="close-button">Close</button>
+            </div>
+        </div>
+    </div>
+
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+			{
+				"imports": {
+					"three": "https://unpkg.com/three@0.119.1/build/three.module.js"
+				}
+			}
+</script>
+<script src="./js/dependencies/ui.js"></script>
+<script type="module">
+    import * as THREE from 'three';
+    import {
+        PerspectiveCamera,
+        WebGLRenderer,
+        sRGBEncoding,
+        HemisphereLight
+    } from 'three';
+    import {OrbitControls} from 'https://unpkg.com/three@0.119.1/examples/jsm/controls/OrbitControls.js';
+    import {TrackballControls} from 'https://unpkg.com/three@0.119.1/examples/jsm/controls/TrackballControls.js';
+    import {GLTFLoader} from "https://unpkg.com/three@0.119.1/examples/jsm/loaders/GLTFLoader.js"
+    import {View3D} from './js/3DView/3DView.Measurements.js';
+    import {MeasurementInfo} from './js/3DView/measurements/Measurement.Info.js';
+    import {MeasurementDistance} from './js/3DView/measurements/Measurement.Distance.js';
+
+    let container, stats, camera, scene, renderer, controls;
+    container = document.createElement('div');
+    document.body.appendChild(container);
+
+
+    camera = new PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.set(13, 0, 5);
+
+    // renderer
+    renderer = new WebGLRenderer({antialias: true});
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+
+    //you can use the type of controls you want TrackballControls,OrbitControls...
+    const control = new OrbitControls(camera, renderer.domElement);
+    control.enableDamping = true;
+    control.dampingFactor = 0.25;
+    control.enableZoom = true;
+
+    var view = new View3D(document.getElementById( 'container' ), renderer, control,camera);
+
+
+    const loader = new GLTFLoader();
+
+    loader.load(
+	// resource URL
+	'./models/mesh.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+		view.scene.add( gltf.scene );
+        // gltf.scene.position.y = -3
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( error );
+
+	}
+    );
+
+    //Lights
+    const ambientLight = new THREE.AmbientLight( 0xffffff, 0 );
+    view.scene.add( ambientLight );
+
+    var element=document.getElementById("clearbutton");
+    var listener=element.addEventListener('click',function(event){
+        view.clearMeasurements();
+    });
+
+    var element=document.getElementById("distancebutton");
+    var listener=element.addEventListener('click',function(event){
+        view.addMeasurement(new MeasurementDistance());
+    });
+
+    //on measurement added
+    view.addEventListener( 'measurementAdded', function (event) {
+        var measurement = event.object;
+        if (measurement) {
+            var infoDiv = document.getElementById( 'info' );
+            var measurementDiv = document.createElement('div');
+            measurementDiv.id = 'measurement_' + measurement.id;
+            measurementDiv.className = 'measurement_info';
+            infoDiv.appendChild(measurementDiv);
+
+            var descriptionDiv = document.createElement('div');
+            descriptionDiv.id = 'description_' + measurement.id;
+            descriptionDiv.className = 'measurement_description';
+            descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() + " " + JSON.stringify(measurement.getInfo());
+            measurementDiv.appendChild(descriptionDiv);
+
+            var removeButton = document.createElement('button');
+            removeButton.className = 'measurement_remove';
+            removeButton.innerHTML = 'Remove';
+            removeButton.onclick = function() {
+                view.removeMeasurement(measurement);
+            }
+            measurementDiv.appendChild(removeButton);
+        }
+    } );
+
+    //on measurement changed
+    view.addEventListener( 'measurementChanged', function (event) {
+        var measurement = event.object;
+        if (measurement) {
+            var descriptionDiv = document.getElementById('description_' + measurement.id);
+            if (descriptionDiv)
+                descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue();
+        }
+
+    } );
+
+    //on measurement removed
+    view.addEventListener( 'measurementRemoved', function (event) {
+        var measurement = event.object;
+        if (measurement) {
+            var measurementDiv = document.getElementById('measurement_' + measurement.id);
+            measurementDiv.parentNode.removeChild(measurementDiv);
+        }
+
+    } );
+
+    function addShadowedLight(x, y, z, color, intensity) {
+        const directionalLight = new THREE.DirectionalLight(color, intensity);
+        directionalLight.position.set(x, y, z);
+        view.scene.add(directionalLight);
+        directionalLight.castShadow = true;
+        const d = 1;
+        directionalLight.shadow.camera.left = -d;
+        directionalLight.shadow.camera.right = d;
+        directionalLight.shadow.camera.top = d;
+        directionalLight.shadow.camera.bottom = -d;
+        directionalLight.shadow.camera.near = 1;
+        directionalLight.shadow.camera.far = 4;
+        directionalLight.shadow.bias = -0.002;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+            const videoPopup = document.getElementById('video-popup');
+            const playButton = document.getElementById('play-button');
+            const closeButton = document.getElementById('close-button');
+
+            playButton.addEventListener('click', function () {
+                videoPopup.style.display = 'flex';
+            });
+
+            closeButton.addEventListener('click', function () {
+                videoPopup.style.display = 'none';
+            });
+        });
+
+
+</script>
+
+</body>
+</html>
