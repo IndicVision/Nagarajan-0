@@ -77,7 +77,7 @@
             <div id="menu">
                 <button id="distancebutton">Measure Distance</button>
                 <button id="clearbutton">Clear</button>
-            </div>
+                            </div>
             <div id="info"></div>
             <div id="container"></div>
         </div>
@@ -149,25 +149,27 @@
     import {MeasurementInfo} from './js/3DView/measurements/Measurement.Info.js';
     import {MeasurementDistance} from './js/3DView/measurements/Measurement.Distance.js';
 
-    let container, stats, camera, scene, renderer, controls;
+        let container, stats, camera, scene, renderer, controls;
     container = document.createElement('div');
     document.body.appendChild(container);
 
-
+    
     camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(30, 0, 50);
 
     // renderer
     renderer = new WebGLRenderer({antialias: true, logarithmicDepthBuffer: true });
+    renderer.setClearColor(0xcccccc);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = sRGBEncoding;
-    renderer.shadowMap.enabled = true;
+    // renderer.outputEncoding = sRGBEncoding;
+    // renderer.shadowMap.enabled = true;
     container.appendChild(renderer.domElement);
 
 
     //you can use the type of controls you want TrackballControls,OrbitControls...
     const control = new OrbitControls(camera, renderer.domElement);
+    control.screenSpacePanning = true;
     control.enableDamping = true;
     control.dampingFactor = 0.25;
     control.enableZoom = true;
@@ -203,23 +205,18 @@
 
     //     } );
     const loader = new GLTFLoader();
-
+    
     loader.load(
 	// resource URL
 	'./models/mesh.gltf',
 	// called when the resource is loaded
         function ( gltf ) {
-
+            
             view.scene.add( gltf.scene );
             // gltf.scene.position.y = -3
-            gltf.animations; // Array<THREE.AnimationClip>
-            gltf.scene; // THREE.Group
-            gltf.scenes; // Array<THREE.Group>
-            gltf.cameras; // Array<THREE.Camera>
-            gltf.asset; // Object
             // gltf.scene.scale.set(.01*gltf.scene.scale.x, .01*gltf.scene.scale.y, .01 * gltf.scene.scale.z)
             // gltf.scene.scale.set(0.1, 0.1, 0.1)
-        },
+                    },
         // called while loading is progressing
         function ( xhr ) {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -237,7 +234,7 @@
     //Lights
     const ambientLight = new THREE.AmbientLight( 0xffffff, -0.2 );
     view.scene.add( ambientLight );
-
+    
     var element=document.getElementById("clearbutton");
     var listener=element.addEventListener('click',function(event){
         view.clearMeasurements();
