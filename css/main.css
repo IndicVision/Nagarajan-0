@@ -9,10 +9,23 @@ body {
     display: flex; /* Use flexbox to arrange video and 3D viewer side by side */
 }
 
-#content-container {
+/* #content-container {
 	width: 100%;
     display: flex;
-    align-items: center; /* Center vertically */
+    align-items: center; /* Center vertically
+} */
+
+#content-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-section {
+    width: 40%; /* Adjust the width of each section as needed */
+    /* height: 100px; */
+    padding: 20px;
+    box-sizing: ;
 }
 
 #video-container {
