@@ -14,7 +14,7 @@ class MeasurementDistance extends Measurement {
             return this.measurementGizmo;
         };
 
-        this.getValue    = function () {
+        this.getValue = function () {
             return this.measurementGizmo.getValue();
         };
 
