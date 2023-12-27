@@ -14,7 +14,7 @@ class MeasurementDistance extends Measurement {
             return this.measurementGizmo;
         };
 
-        this.getValue = function () {
+        this.getValue    = function () {
             return this.measurementGizmo.getValue();
         };
 
@@ -302,7 +302,7 @@ class MeasurementGizmoDistance extends MeasurementGizmo {
                 object.scale.set(width, width, width);
 
                 //set text value
-                var distance = scope.getValue();
+                var distance = scope.getValue() * 100;
                 scope.setText(distance.toFixed(2), midPoint, camera);
 
             case 1:

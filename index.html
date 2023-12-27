@@ -154,8 +154,8 @@
     document.body.appendChild(container);
 
     
-    camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(30, 0, 50);
+    camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(3, 0, 5);
 
     // renderer
     renderer = new WebGLRenderer({antialias: true, logarithmicDepthBuffer: true });
@@ -214,7 +214,7 @@
             
             view.scene.add( gltf.scene );
             // gltf.scene.position.y = -3
-            // gltf.scene.scale.set(.01*gltf.scene.scale.x, .01*gltf.scene.scale.y, .01 * gltf.scene.scale.z)
+            gltf.scene.scale.set(.01*gltf.scene.scale.x, .01*gltf.scene.scale.y, .01 * gltf.scene.scale.z)
             // gltf.scene.scale.set(0.1, 0.1, 0.1)
                     },
         // called while loading is progressing
@@ -258,7 +258,7 @@
             var descriptionDiv = document.createElement('div');
             descriptionDiv.id = 'description_' + measurement.id;
             descriptionDiv.className = 'measurement_description';
-            descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() + " " + JSON.stringify(measurement.getInfo());
+            descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() * 100 + " " + JSON.stringify(measurement.getInfo());
             measurementDiv.appendChild(descriptionDiv);
 
             var removeButton = document.createElement('button');
@@ -277,7 +277,7 @@
         if (measurement) {
             var descriptionDiv = document.getElementById('description_' + measurement.id);
             if (descriptionDiv)
-                descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue();
+                descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() * 100;
         }
 
     } );
