@@ -192,7 +192,7 @@
             var descriptionDiv = document.createElement('div');
             descriptionDiv.id = 'description_' + measurement.id;
             descriptionDiv.className = 'measurement_description';
-            descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() * 100 + " " + JSON.stringify(measurement.getInfo());
+            descriptionDiv.innerHTML = measurement.getType() + " = " + (measurement.getValue() * 100).toFixed(1) + " " + JSON.stringify(measurement.getInfo());
             measurementDiv.appendChild(descriptionDiv);
 
             var removeButton = document.createElement('button');
@@ -211,7 +211,7 @@
         if (measurement) {
             var descriptionDiv = document.getElementById('description_' + measurement.id);
             if (descriptionDiv)
-                descriptionDiv.innerHTML = measurement.getType() + " = " + measurement.getValue() * 100;
+                descriptionDiv.innerHTML = measurement.getType() + " = " + (measurement.getValue() * 100).toFixed(1);
         }
 
     } );

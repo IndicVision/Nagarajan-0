@@ -141,7 +141,7 @@ a, button, input, select {
 #doctorInputPopup {
 	display: none;
 	position: fixed;
-	bottom: 250px; /* Adjust the distance from the bottom as needed */
+	bottom: 300px; /* Adjust the distance from the bottom as needed */
 	left: 50%; /* This will center the popup horizontally */
 	transform: translateX(-300%); /* This will center the popup horizontally */
 	z-index: 9999;
@@ -159,7 +159,7 @@ a, button, input, select {
 	border: 1px solid #888888;
 	border-radius: 5px;
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-	width: 100%; /* Add this line to make the popup take the full width */
+	width: 500%; /* Add this line to make the popup take the full width */
 	max-width: 400px; /* Limit the width of the popup */
   }
   
@@ -173,8 +173,8 @@ a, button, input, select {
 	background-color: #fff;
 	font-size: 14px; /* Adjust the font size as needed */
 	/* Increase the length of the text boxes */
-	width: calc(100% - 24px); /* You can adjust the width as needed */
-	max-width: 100%; /* Add this line to limit the width of the text boxes */
+	width: calc(100% + 0px); /* You can adjust the width as needed */
+	max-width: 500%; /* Add this line to limit the width of the text boxes */
   }
 
 .hidden-text {
