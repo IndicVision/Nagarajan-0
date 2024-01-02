@@ -70,6 +70,7 @@
           <br> <!-- Add a line break to place the next input below -->
           <input type="text" id="comments" placeholder="Comments">
           <br> <!-- Add a line break to place the next input below -->
+          <button id="saveButton">Save</button>
           <button class="close-button">Close</button>
         </div>
       </div>
@@ -327,6 +328,67 @@
     // document.onmouseup = null;
     // document.onmousemove = null;
     // }
+    
+    // Function to save user input as a text file
+// Function to save user input to GitHub repository
+    async function saveToGitHub(plan, comments) {
+        const fileName = `user_input_${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}.txt`;
+        const filePath = `comments/${fileName}`; // Specify the path in your repository
+
+        const apiUrl = 'https://api.github.com/repos/raj-gandhi-in/healwell_3D_Model_viewer_and_measurement/contents/' + filePath;
+
+        const authToken = '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'; // Replace with your GitHub token
+
+        const content = btoa(`Plan: ${plan}\nComments: ${comments}`);
+
+        const requestBody = {
+            message: `Add ${fileName}`,
+            content: content,
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`,
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                console.log(`File ${fileName} saved to GitHub repository.`);
+            } else {
+                console.error('Error saving file to GitHub repository:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error saving file:', error.message);
+        }
+    }
+
+    // Event listener for the Save button
+    document.getElementById('saveButton').addEventListener('click', function () {
+        // Get user input
+        const planInput = document.getElementById('plan');
+        const commentsInput = document.getElementById('comments');
+        const plan = planInput.value;
+        const comments = commentsInput.value;
+
+        // Check if both plan and comments are provided
+        if (plan && comments) {
+            // Save user input to GitHub repository
+            saveToGitHub(plan, comments);
+            // Optionally, clear the input fields after saving
+            planInput.value = '';
+            commentsInput.value = '';
+            // Close the popup
+            closeDoctorInputPopup();
+        } else {
+            alert('Please provide both Plan and Comments before saving.');
+        }
+    });
+
+
 
 </script>
 
