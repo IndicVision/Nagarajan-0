@@ -13,6 +13,11 @@ button:hover {
 	color: #fff;
   }
 
+button:active {
+    background-color: #333;
+    color: #fff;
+}
+
 a {
 	color: rgb(7, 7, 0);
 	text-decoration: none;
@@ -29,8 +34,8 @@ button {
 }
 
 #info {
-	position: absolute;
-	top: 0px;
+	/* position: absolute;
+	top: 0px; */
 	width: 100%;
 	padding: 10px;
 	box-sizing: border-box;
@@ -63,11 +68,11 @@ a, button, input, select {
 }
 
 #overlay {
-	position: absolute;
+	/* position: absolute; */
 	font-size: 16px;
 	z-index: 2;
-	top: 0;
-	left: 0;
+	/* top: 0; */
+	/* left: 0; */
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -77,7 +82,7 @@ a, button, input, select {
 	background: rgba(0,0,0,0.7);
 }
 
-	#overlay button {
+#overlay button {
 		background: transparent;
 		border: 0;
 		border: 1px solid rgb(255, 255, 255);
@@ -98,15 +103,17 @@ a, button, input, select {
 
 #menu {
 	display: flex;
-	justify-content: space-between;
+	flex-wrap: wrap;
+	justify-content: flex-start;
 	width: 100%;
   }
 
 #buttonContainer {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	height: 100%;
+	align-items: flex-start;
+	align-self: center;
   }
 
 #videoPopup {
@@ -141,17 +148,20 @@ a, button, input, select {
 #doctorInputPopup {
 	display: none;
 	position: fixed;
-	bottom: 300px; /* Adjust the distance from the bottom as needed */
-	left: 50%; /* This will center the popup horizontally */
-	transform: translateX(-300%); /* This will center the popup horizontally */
+	bottom: 0;
+	left: 0;
+	right: 0;
 	z-index: 9999;
 	background-color: #fff;
-	/* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 	padding: 20px;
 	border-radius: 5px;
+	box-sizing: border-box;
+	overflow-y: auto; /* Add a scrollbar if the content is too tall */
+	max-height: 100vh; /* Limit the height to the height of the viewport */
+	transform: none; /* Remove the transform property */
   }
 
-.modal-content {
+  .modal-content {
 	position: relative;
 	padding: 10px;
 	background-color: #fefefe;
@@ -159,11 +169,11 @@ a, button, input, select {
 	border: 1px solid #888888;
 	border-radius: 5px;
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-	width: 500%; /* Add this line to make the popup take the full width */
+	width: 100%; /* Make the popup take the full width */
 	max-width: 400px; /* Limit the width of the popup */
   }
   
-.modal-content input[type="text"] {
+  .modal-content input[type="text"] {
 	width: 100%;
 	padding: 12px;
 	margin: 8px 0;
@@ -171,10 +181,18 @@ a, button, input, select {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	background-color: #fff;
-	font-size: 14px; /* Adjust the font size as needed */
-	/* Increase the length of the text boxes */
-	width: calc(100% + 0px); /* You can adjust the width as needed */
-	max-width: 500%; /* Add this line to limit the width of the text boxes */
+	font-size: 14px;
+  }
+
+@media screen and (min-width: 768px) {
+	/* On screens that are 768px or wider, display the popup in the center of the screen */
+	#doctorInputPopup {
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  max-width: 600px; /* Limit the width of the popup */
+	  max-height: 80vh; /* Limit the height to 80% of the viewport height */
+	}
   }
 
 .hidden-text {
@@ -195,6 +213,11 @@ a, button, input, select {
 	border-radius: 5px;
 	transition: background-color 0.3s;
   }
+
+#VideoPreview:active, #DoctorInput:active, #distancebutton:active, #clearbutton:active {
+    background-color: #333;
+    color: #fff;
+}
 
 #DoctorInput{
 	background-color: #f8f9f8;
@@ -239,4 +262,31 @@ a, button, input, select {
 	cursor: pointer;
 	border-radius: 5px;
 	transition: background-color 0.3s;
+  }
+
+input[type="text"], select {
+	width: 100%;
+	padding: 12px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	font-size: 14px;
+	color: grey;
+  }
+
+#mainContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* This will make the container take up the full height of the viewport */
+  }
+
+#loader {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	/* Add more styles as needed */
   }
