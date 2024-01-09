@@ -318,7 +318,7 @@ class MeasurementControls extends Object3D {
 
 
         function snapToFaceCorner(intersect, measurementGizmo) {
-            if (intersect && intersect.face && intersect.object && intersect.object.geometry) {
+            if (intersect && intersect.face && intersect.object && intersect.object.geometry && intersect.object.geometry.attributes) {
                 //new code
                 const positionAttribute = intersect.object.geometry.attributes.position;
                 const lists = [intersect.face.a, intersect.face.b, intersect.face.c]

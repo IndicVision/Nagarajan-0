@@ -38,7 +38,7 @@ class MeasurementDistance extends Measurement {
         this.getDescription = function () {
             var value = this.getValue();
             if (value == null) return "distance";
-            return 'distance = ' + this.getValue().toFixed(2);
+            return 'distance = ' + this.getValue().toFixed(1);
         }
     }
 
@@ -59,7 +59,7 @@ class MeasurementGizmoDistance extends MeasurementGizmo {
 
             'TOPLINE': [
                 new Mesh(new CylinderGeometry(1, 1, 1, 4, 1, false), new MeasurementGizmoMaterial({
-                    color: 0xff0000,
+                    color: 0x184ce4,
                     opacity: 0.4
                 })),
                 new Vector3(0, 0.5, 0),
@@ -82,14 +82,14 @@ class MeasurementGizmoDistance extends MeasurementGizmo {
                 new Vector3(Math.PI / 2, 0, 0)
             ],
             'START': [
-                new Mesh(new SphereGeometry(2), new MeasurementGizmoMaterial({color: 0xff0000, opacity: 0.4}))
+                new Mesh(new SphereGeometry(2), new MeasurementGizmoMaterial({color: 0x184ce4, opacity: 0.4}))
             ],
             'END': [
-                new Mesh(new SphereGeometry(2), new MeasurementGizmoMaterial({color: 0xff0000, opacity: 0.4}))
+                new Mesh(new SphereGeometry(2), new MeasurementGizmoMaterial({color: 0x184ce4, opacity: 0.4}))
             ],
             'STARTARROW': [
                 new Mesh(new CylinderGeometry(3, 0, 6, 8, 1, false), new MeasurementGizmoMaterial({
-                    color: 0xff0000,
+                    color: 0x184ce4,
                     opacity: 0.4
                 })),
                 new Vector3(0, 1, 0),
@@ -97,7 +97,7 @@ class MeasurementGizmoDistance extends MeasurementGizmo {
             ],
             'ENDARROW': [
                 new Mesh(new CylinderGeometry(3, 0, 6, 8, 1, false), new MeasurementGizmoMaterial({
-                    color: 0xff0000,
+                    color: 0x184ce4,
                     opacity: 0.4
                 })),
                 new Vector3(0, 1, 0),
@@ -302,8 +302,8 @@ class MeasurementGizmoDistance extends MeasurementGizmo {
                 object.scale.set(width, width, width);
 
                 //set text value
-                var distance = scope.getValue();
-                scope.setText(distance.toFixed(2), midPoint, camera);
+                var distance = scope.getValue() * 100;
+                scope.setText(distance.toFixed(1), midPoint, camera);
 
             case 1:
                 //start point

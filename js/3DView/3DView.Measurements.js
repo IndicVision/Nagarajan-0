@@ -57,7 +57,7 @@ class View3D extends EventDispatcher {
 				new MeshPhongMaterial({
 					specular: 0x111111,
 					emissive: 0X151515,
-					color: 0xff5533,
+					color: 0x184CE4,
 					shininess: 20,
 					side: DoubleSide,
 					opacity: geometry.alpha,
@@ -68,7 +68,7 @@ class View3D extends EventDispatcher {
 				new MeshPhongMaterial({
 					specular: 0x111111,
 					emissive: 0X050505,
-					color: 0xff5533,
+					color: 0x184CE4,
 					shininess: 20,
 					side: DoubleSide,
 					flatShading: FlatShading

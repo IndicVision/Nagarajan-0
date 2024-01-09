@@ -1,7 +1,3 @@
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
 var UI = {};
 
 UI.Element = function ( dom ) {
@@ -646,7 +642,7 @@ UI.Number = function ( number ) {
 	this.min = - Infinity;
 	this.max = Infinity;
 
-	this.precision = 2;
+	this.precision = 1;
 	this.step = 1;
 
 	this.dom = dom;
