@@ -463,9 +463,9 @@
         const fileName = `user_input_${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}.txt`;
         const filePath = `comments/${fileName}`; // Specify the path in your repository
 
-        const apiUrl = 'https://api.github.com/repos/IndicVision/Healwell_demo_Nagarajan_2/contents/' + filePath;
+        const apiUrl = 'https://api.github.com/repos/raj-gandhi-in/healwell_3D_Model_viewer_and_measurement/contents/' + filePath;
 
-        const authToken = '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'; // Replace with your GitHub token
+        const authToken = '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'; // Replace with your GitHub token
 
         const content = btoa(`Patient's Name: ${name_p}\nSurgeon's Name: ${name_s}\nTime at Presentation (TIP): ${tip}\nType at Presentation (TYP): ${typ}\nStatus of the Skin/Ulcer (SSU): ${ssu}\nStatus of the Foot (SF): ${sf}\nStatus of Diabetes Mellitus (SDM): ${sdm}\nStatus of the Organ System (SOS): ${sos}\nPlan: ${plan}\nComments: ${comments}`);
 
