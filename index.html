@@ -64,7 +64,7 @@
     <div id="mainContainer">
     <div id="videoPopup" class="modal">
         <span class="close" onclick="closeVideoPopup()">&times;</span>
-        <iframe src="./models/IMG_6018.mp4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="./models/video.mp4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
       <div id="doctorInputPopup" class="modal">
         <div class="modal-content">
@@ -231,6 +231,7 @@
 	function ( gltf ) {
         
 		view.scene.add( gltf.scene );
+        gltf.scene.rotation.z = Math.PI;
         gltf.scene.scale.set(.01*gltf.scene.scale.x, .01*gltf.scene.scale.y, .01 * gltf.scene.scale.z)
          // Calculate the bounding box of the model
         const box = new THREE.Box3().setFromObject(gltf.scene);
